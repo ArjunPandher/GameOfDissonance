@@ -1,0 +1,33 @@
+body{
+    background-color: #200B42;
+}
+
+span {
+    color: #D7BEFF;
+    font-family: 'Alata', sans-serif;
+}
+
+div {
+    margin: auto;
+    text-align: center;
+    width: 100%;
+}
+
+.playArea {
+    background-color: powderblue;
+    height: 500px;
+    width: 500px;
+}
+
+.title {  
+    font-size: 50px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+}
+
+
+  
+  
