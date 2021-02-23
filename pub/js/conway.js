@@ -15,10 +15,69 @@
     }
 
     Conway.prototype = {
-        // steps through one step of the game
+        // steps through one step of the game, updating the values of each cell and calls updatecell on each changed cell
         step : function () {
+            // this returns the live number of neighbors for the cell at cellarray[y][x]
+            function checkneighbors(y, x){
+                let top = y - 1;
+                let bottom = y + 1;
+                let left = x - 1;
+                let right = x + 1;
+                if(top > 23){
+                    top = 0;
+                }
+                if(bottom < 0){
+                    bottom = 23;
+                }
+                if(left < 0){
+                    left = 23;
+                }
+                if(right > 23){
+                    right = 0;
+                }
+                let neighborArray = [this.cellarray[top][left], 
+                                     this.cellarray[top][x],
+                                     this.cellarray[top][right], 
+                                     this.cellarray[y][left], 
+                                     this.cellarray[y][right], 
+                                     this.cellarray[bottom][left], 
+                                     this.cellarray[bottom][x], 
+                                     this.cellarray[bottom][right]];
+                
+                let liveCount = 0;
+                let c = 0;
+
+                while(liveCount < 4 && c < 8){
+                    if(neighborArray[c] == 1){
+                        liveCount++;
+                    }
+                    c++;
+                }
+
+                return liveCount;
+            }
+
+            for(let i = 0; i < this.cellheight; i++){
+                for(let j = 0; j < this.cellwidth; j++){
+                    let liveNeighbors = checkneighbors(i, j);
+                    if(this.cellarray[i][j] == 0 && liveNeighbors == 3){
+                        this.cellarray[i][j] = 1;
+                        this.updatecell(j, i);
+                        break;
+                    }
+                    if(!((this.cellarray[i][j] == 1 && liveNeighbors == 2) || (this.cellarray[i][j] == 1 && liveNeighbors == 3))){
+                        this.cellarray[i][j] = 0;
+                        this.updatecell(j, i);
+                        break;
+                    }
+                    
+                }
+            }
 
         },
+
+        
+
         // steps through x steps of the game
         stepx : function (x) {
             for (let i = 0; i < x; i++) {
