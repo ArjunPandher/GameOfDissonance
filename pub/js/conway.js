@@ -95,12 +95,12 @@
         // adds a cell at position (x, y)
         addcell : function (x, y) {
             this.cellarray[y][x] = 1;
-            // TODO: change board to reflect this
+            this.updatecell(x, y);
         },
         // removes a cell at position (x, y)
         removecell : function (x, y) {
             this.cellarray[y][x] = 0;
-            // TODO: change board to reflect this
+            this.updatecell(x, y);
         },
         // resets all cells on the board to be empty
         resetboard : function () {
