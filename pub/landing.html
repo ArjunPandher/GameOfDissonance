@@ -5,8 +5,10 @@
         <title>Game of Dissonance</title>
         <link rel="stylesheet" type="text/css" href="landing.css">
         <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+        <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body>
+        <script defer src="js/conway.js"></script>
         <div class="header">
             <span class="title">Game of Dissonance</span>
             <br>
@@ -16,10 +18,11 @@
             <button>Reset</button>
         </div>
        
-        <div class="playArea"></div>
+        <div class="playArea"><canvas id="noteField" width="526" height="526"></canvas></div>
 
         <div class="footer">
             <span>Arjun Pandher, Peter Bilski, 2021</span>
         </div>
+        <script defer src="js/landing.js"></script>
     </body>
 </html>
