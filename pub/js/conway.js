@@ -47,14 +47,16 @@
                 if(right > 23){
                     right = 0;
                 }
-                let neighborArray = [this.cellarray[top][left], 
-                                     this.cellarray[top][x],
-                                     this.cellarray[top][right], 
-                                     this.cellarray[y][left], 
-                                     this.cellarray[y][right], 
-                                     this.cellarray[bottom][left], 
-                                     this.cellarray[bottom][x], 
-                                     this.cellarray[bottom][right]];
+                let neighborArray = [
+                    this.cellarray[top][left],         
+                    this.cellarray[top][x],
+                    this.cellarray[top][right], 
+                    this.cellarray[y][left], 
+                    this.cellarray[y][right], 
+                    this.cellarray[bottom][left], 
+                    this.cellarray[bottom][x], 
+                    this.cellarray[bottom][right]
+                ];
                 
                 let liveCount = 0;
                 let c = 0;
@@ -87,8 +89,6 @@
             }
 
         },
-
-        
 
         // steps through x steps of the game
         stepx : function (x) {
