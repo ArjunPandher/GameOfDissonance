@@ -8,7 +8,7 @@
 (function(global, document, $){
     function Conway (canvasID) {
         this.canvas = document.getElementById(canvasID)
-        this.ctx = canvas.getContext("2d");
+        this.ctx = this.canvas.getContext("2d");
         // Overriding the canvas's height and width; will support other canvas sizes at a later date.
         // Maybe create the canvas ourselves?
         this.canvas.width = 526;
@@ -157,4 +157,5 @@
             }
         }
     }
+    global.Conway = global.Conway || Conway
 })(window, window.document, $);
