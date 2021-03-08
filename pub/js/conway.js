@@ -145,16 +145,24 @@
             let cellheight = 20;
             this.ctx.strokeStyle = "#B6E6EC";
             this.ctx.lineWidth = 2;
-            for (let i = 0; i < this.canvas.height; i += gridwidth + cellwidth) {
+            
+            for (let i = 1; i <= this.canvas.height; i += this.canvas.height/24) {
                 this.ctx.moveTo(0, i);
-                this.ctx.lineTo(this.canvas.width, i);
-                this.ctx.stroke();
+                this.ctx.lineTo(this.canvas.width - 1, i);         
             }
-            for (let i = 0; i < this.canvas.width; i += gridwidth + cellheight) {
-                this.ctx.moveTo(i, 0);
-                this.ctx.lineTo(i, this.canvas.height);
-                this.ctx.stroke();
+            
+            for (let i = 0; i <= this.canvas.width; i += this.canvas.width/24) {
+                this.ctx.moveTo(i + 1, 0);
+                this.ctx.lineTo(i + 1, this.canvas.height - 1);   
             }
+            //lines for bottom and right edges
+            this.ctx.moveTo(this.canvas.width - 1, 0);
+            this.ctx.lineTo(this.canvas.width - 1, this.canvas.height - 1);
+            this.ctx.moveTo(0, this.canvas.height - 1);
+            this.ctx.lineTo(this.canvas.width - 1, this.canvas.height - 1);
+            
+            this.ctx.stroke();
+    
         }
     }
     global.Conway = global.Conway || Conway
