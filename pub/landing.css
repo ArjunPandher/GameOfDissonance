@@ -13,9 +13,8 @@ div {
     width: 100%;
 }
 
-.playArea {
-    height: 500px;
-    width: 500px;
+#noteField{
+    background-color: #f2f2f2;
 }
 
 .title {  

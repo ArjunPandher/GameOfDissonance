@@ -11,10 +11,10 @@
         this.ctx = this.canvas.getContext("2d");
         // Overriding the canvas's height and width; will support other canvas sizes at a later date.
         // Maybe create the canvas ourselves?
-        this.canvas.width = 526;
-        this.canvas.height = 526;
-        this.canvas.style.width = 526 + "px";
-        this.canvas.style.height = 526 + "px";
+        this.canvas.width = 528;
+        this.canvas.height = 528;
+        this.canvas.style.width = 528 + "px";
+        this.canvas.style.height = 528 + "px";
         this.cellheight = 24;
         this.cellwidth = 24;
         this.cellarray = new Array(this.cellheight);
@@ -134,32 +134,39 @@
             //
         },
         // visually updates a single cell to represet that cell's current state
+        // takes in x and y coordinates from the cell array, not pixels
         // TODO: make this private
         updatecell : function (x, y) {
-            // TODO: this
+            let colour = "";
+            if(this.cellarray[x,y] == 0){
+                colour = "#f2f2f2"
+                colour = "#fc3903"
+            } else {
+                colour = "#fc3903"
+            }
+
+            this.ctx.colour = colour;
+            //+2 accounts for edges, x * 22 is border width + cell width
+            this.ctx.fillRect(2 + x * 22, 2 + y * 22, 20, 20);
+
         },
         // draws a grid on the canvas
         drawgrid : function () {
             let gridwidth = 2;
             let cellwidth = 20;
             let cellheight = 20;
-            this.ctx.strokeStyle = "#B6E6EC";
+            this.ctx.strokeStyle = "#d090d6";
             this.ctx.lineWidth = 2;
             
-            for (let i = 1; i <= this.canvas.height; i += this.canvas.height/24) {
+            for (let i = 1; i <= this.canvas.height; i += (this.canvas.height - 2)/(24.0)) {
                 this.ctx.moveTo(0, i);
                 this.ctx.lineTo(this.canvas.width - 1, i);         
             }
             
-            for (let i = 0; i <= this.canvas.width; i += this.canvas.width/24) {
+            for (let i = 0; i <= this.canvas.width; i += (this.canvas.width - 2)/(24.0)) {
                 this.ctx.moveTo(i + 1, 0);
                 this.ctx.lineTo(i + 1, this.canvas.height - 1);   
             }
-            //lines for bottom and right edges
-            this.ctx.moveTo(this.canvas.width - 1, 0);
-            this.ctx.lineTo(this.canvas.width - 1, this.canvas.height - 1);
-            this.ctx.moveTo(0, this.canvas.height - 1);
-            this.ctx.lineTo(this.canvas.width - 1, this.canvas.height - 1);
             
             this.ctx.stroke();
     
