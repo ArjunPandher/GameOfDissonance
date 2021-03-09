@@ -4,5 +4,5 @@ const conway = new Conway("noteField")
 const noteField = document.getElementById("noteField")
 
 conway.drawgrid();
+conway.initCanvas();
 
-conway.updatecell(3, 2);

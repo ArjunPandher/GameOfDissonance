@@ -9,6 +9,7 @@
     function Conway (canvasID) {
         this.canvas = document.getElementById(canvasID)
         this.ctx = this.canvas.getContext("2d");
+        
         // Overriding the canvas's height and width; will support other canvas sizes at a later date.
         // Maybe create the canvas ourselves?
         this.canvas.width = 528;
@@ -27,6 +28,28 @@
     }
 
     Conway.prototype = {
+        initCanvas : function () {
+            let canvasHeight = this.canvas.height
+            let canvasWidth = this.canvas.width
+            function updateOnClick(event){
+                
+                let x = event.offsetX;
+                let y = event.offsetY;
+                let outputX;
+                let outputY;
+                if(x >= 2 && y >= 2){
+                    x += 2
+                    y += 2
+                    outputX = Math.floor(x/((canvasWidth - 2)/22.0))
+                    outputY = Math.floor(y/((canvasHeight - 2)/22.0))
+                    this.updatecell(outputX, outputY);
+                    console.log(outputX);
+                    console.log(outputY);
+                }
+                
+            }
+            this.canvas.addEventListener('click', updateOnClick.bind(this), false)
+        },
         // steps through one step of the game, updating the values of each cell and calls updatecell on each changed cell
         step : function () {
             // this returns the live number of neighbors for the cell at cellarray[y][x]
