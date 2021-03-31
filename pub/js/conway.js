@@ -4,7 +4,7 @@
 // Cell pixel dimensions: 20 by 20 px
 // Grid width: 2px
 // Board dimensions: 24 by 24 cells
-// Canvas height/width: 526 by 526 px
+// Canvas height/width: 530 by 530 px
 (function(global, document, $){
     function Conway (canvasID) {
         this.canvas = document.getElementById(canvasID)
@@ -12,10 +12,10 @@
         
         // Overriding the canvas's height and width; will support other canvas sizes at a later date.
         // Maybe create the canvas ourselves?
-        this.canvas.width = 528;
-        this.canvas.height = 528;
-        this.canvas.style.width = 528 + "px";
-        this.canvas.style.height = 528 + "px";
+        this.canvas.width = 530;
+        this.canvas.height = 530;
+        this.canvas.style.width = 530 + "px";
+        this.canvas.style.height = 530 + "px";
         this.cellheight = 24;
         this.cellwidth = 24;
         this.cellarray = new Array(this.cellheight);
@@ -32,9 +32,10 @@
             let canvasHeight = this.canvas.height
             let canvasWidth = this.canvas.width
             function updateOnClick(event){
-                
                 let x = event.offsetX;
                 let y = event.offsetY;
+                console.log(canvasWidth);
+                console.log(canvasHeight);
                 let outputX;
                 let outputY;
                 if(x >= 2 && y >= 2){
@@ -43,8 +44,6 @@
                     outputX = Math.floor(x/((canvasWidth - 2)/22.0))
                     outputY = Math.floor(y/((canvasHeight - 2)/22.0))
                     this.updatecell(outputX, outputY);
-                    console.log(outputX);
-                    console.log(outputY);
                 }
                 
             }
@@ -163,7 +162,6 @@
             let colour = "";
             if(this.cellarray[x,y] == 0){
                 colour = "#f2f2f2"
-                colour = "#fc3903"
             } else {
                 colour = "#fc3903"
             }
