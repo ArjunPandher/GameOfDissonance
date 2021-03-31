@@ -39,10 +39,10 @@
                 let outputX;
                 let outputY;
                 if(x >= 2 && y >= 2){
-                    x += 2
-                    y += 2
-                    outputX = Math.floor(x/((canvasWidth - 2)/22.0))
-                    outputY = Math.floor(y/((canvasHeight - 2)/22.0))
+                    x -= 2
+                    y -= 2
+                    outputX = Math.floor(x/((canvasWidth - 2)/24.0))
+                    outputY = Math.floor(y/((canvasHeight - 2)/24.0))
                     this.updatecell(outputX, outputY);
                 }
                 
