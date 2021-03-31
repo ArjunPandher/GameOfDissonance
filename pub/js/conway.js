@@ -19,12 +19,17 @@
         this.cellheight = 24;
         this.cellwidth = 24;
         this.cellarray = new Array(this.cellheight);
-        for (let i = 0; i < this.cellheight; i++) {
-            this.cellarray[i] = new Array(this.cellwidth)
-            for (let j = 0; j < this.cellwidth; j++) {
-                this.cellarray[i][j] = 0;
-            }
-        }
+        
+        this.cellarray = new Array(24).fill(0).map(() => new Array(24).fill(0));
+
+        // for (let i = 0; i < this.cellheight; i++) {
+        //     this.cellarray[i] = new Array(this.cellwidth)
+        //     for (let j = 0; j < this.cellwidth; j++) {
+        //         this.cellarray[i][j] = 0;
+        //     }
+        // }
+
+
     }
 
     Conway.prototype = {
@@ -34,8 +39,7 @@
             function updateOnClick(event){
                 let x = event.offsetX;
                 let y = event.offsetY;
-                console.log(canvasWidth);
-                console.log(canvasHeight);
+                
                 let outputX;
                 let outputY;
                 if(x >= 2 && y >= 2){
@@ -43,6 +47,16 @@
                     y -= 2
                     outputX = Math.floor(x/((canvasWidth - 2)/24.0))
                     outputY = Math.floor(y/((canvasHeight - 2)/24.0))
+                    
+                    console.log(this.cellarray[outputX, outputY])
+
+                    if(this.cellarray[outputX, outputY] == 0){
+                        this.cellarray[outputX, outputY] = 1
+                    } else {
+                        this.cellarray[outputX, outputY] = 0
+                    }
+                    
+                    
                     this.updatecell(outputX, outputY);
                 }
                 
@@ -126,16 +140,7 @@
         endgame : function () {
 
         },
-        // adds a cell at position (x, y)
-        addcell : function (x, y) {
-            this.cellarray[y][x] = 1;
-            this.updatecell(x, y);
-        },
-        // removes a cell at position (x, y)
-        removecell : function (x, y) {
-            this.cellarray[y][x] = 0;
-            this.updatecell(x, y);
-        },
+        
         // resets all cells on the board to be empty
         resetboard : function () {
             this.cellarray = new Array(this.cellheight);
@@ -162,11 +167,11 @@
             let colour = "";
             if(this.cellarray[x,y] == 0){
                 colour = "#f2f2f2"
-            } else {
+            } else { 
                 colour = "#fc3903"
             }
 
-            this.ctx.colour = colour;
+            this.ctx.fillStyle = colour;
             //+2 accounts for edges, x * 22 is border width + cell width
             this.ctx.fillRect(2 + x * 22, 2 + y * 22, 20, 20);
 
