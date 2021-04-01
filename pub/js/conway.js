@@ -58,16 +58,16 @@
         // steps through one step of the game, updating the values of each cell and calls updatecell on each changed cell
         step : function () {
             // this returns the live number of neighbors for the cell at cellarray[y][x]
-            function checkneighbors(y, x){
+            function checkneighbors(x, y){
                 let top = y - 1;
                 let bottom = y + 1;
                 let left = x - 1;
                 let right = x + 1;
-                if(top > 23){
-                    top = 0;
+                if(top < 0){
+                    top = 23;
                 }
-                if(bottom < 0){
-                    bottom = 23;
+                if(bottom > 23){
+                    bottom = 0;
                 }
                 if(left < 0){
                     left = 23;
@@ -101,15 +101,15 @@
 
             for(let i = 0; i < this.cellheight; i++){
                 for(let j = 0; j < this.cellwidth; j++){
-                    let liveNeighbors = checkneighbors(i, j);
+                    let liveNeighbors = checkneighbors.bind(this)(i, j);
                     if(this.cellarray[i][j] == 0 && liveNeighbors == 3){
                         this.cellarray[i][j] = 1;
-                        this.updatecell(j, i);
+                        this.updatecell(i, j);
                         break;
                     }
                     if(!((this.cellarray[i][j] == 1 && liveNeighbors == 2) || (this.cellarray[i][j] == 1 && liveNeighbors == 3))){
                         this.cellarray[i][j] = 0;
-                        this.updatecell(j, i);
+                        this.updatecell(i, j);
                         break;
                     }
                     
