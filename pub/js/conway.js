@@ -22,14 +22,6 @@
         
         this.cellarray = new Array(24).fill(0).map(() => new Array(24).fill(0));
 
-        // for (let i = 0; i < this.cellheight; i++) {
-        //     this.cellarray[i] = new Array(this.cellwidth)
-        //     for (let j = 0; j < this.cellwidth; j++) {
-        //         this.cellarray[i][j] = 0;
-        //     }
-        // }
-
-
     }
 
     Conway.prototype = {
@@ -48,14 +40,14 @@
                     outputX = Math.floor(x/((canvasWidth - 2)/24.0))
                     outputY = Math.floor(y/((canvasHeight - 2)/24.0))
                     
-                    console.log(this.cellarray[outputX, outputY])
+                    console.log(this.cellarray[outputX][outputY])
 
-                    if(this.cellarray[outputX, outputY] == 0){
-                        this.cellarray[outputX, outputY] = 1
+
+                    if(this.cellarray[outputX][outputY] == 0){
+                        this.cellarray[outputX][outputY] = 1
                     } else {
-                        this.cellarray[outputX, outputY] = 0
+                        this.cellarray[outputX][outputY] = 0
                     }
-                    
                     
                     this.updatecell(outputX, outputY);
                 }
@@ -165,10 +157,10 @@
         // TODO: make this private
         updatecell : function (x, y) {
             let colour = "";
-            if(this.cellarray[x,y] == 0){
-                colour = "#f2f2f2"
-            } else { 
+            if(this.cellarray[x][y] == 1){
                 colour = "#fc3903"
+            } else { 
+                colour = "#f2f2f2"
             }
 
             this.ctx.fillStyle = colour;
