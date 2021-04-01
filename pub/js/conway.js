@@ -98,8 +98,6 @@
 
                 return liveCount;
             }
-            
-            console.log(this);
 
             let liveNeighbors = checkneighbors.bind(this);
 
@@ -109,11 +107,13 @@
                 for(let j = 0; j < this.cellwidth; j++){
                     let ln = liveNeighbors(i, j);
                     if(this.cellarray[i][j] == 0 && ln == 3){
-                        updatedCopy[i][j] = 1;
-                        // this.updatecell(i, j);                   
-                    }else if(!((this.cellarray[i][j] == 1 && ln == 2) || (this.cellarray[i][j] == 1 && ln == 3))){
+                        updatedCopy[i][j] = 1;               
+                    } else if(this.cellarray[i][j] == 0 && ln != 3){
                         updatedCopy[i][j] = 0;
-                        // this.updatecell(i, j);        
+                    } else if((this.cellarray[i][j] == 1 && ln == 2) || (this.cellarray[i][j] == 1 && ln == 3)){
+                        updatedCopy[i][j] = 1;
+                    }else if(!((this.cellarray[i][j] == 1 && ln == 2) || (this.cellarray[i][j] == 1 && ln == 3))){
+                        updatedCopy[i][j] = 0;   
                     }
                     
                 }
@@ -126,33 +126,25 @@
                     this.updatecell(i, j);
                 }
             }
-
-
-
+            
         },
 
-        // steps through x steps of the game
-        stepx : function (x) {
-            for (let i = 0; i < x; i++) {
-                this.step();
-            }
-        },
-        // steps through the game until stopgame is called
+        // steps through the game until endgame is called
         startgame : function () {
-
+            this.runningThread = setInterval(this.step.bind(this), 200)
         },
         // stops stepping through the game if startgame was called in the past
         endgame : function () {
-
+            clearInterval(this.runningThread)
         },
         
         // resets all cells on the board to be empty
         resetboard : function () {
-            this.cellarray = new Array(this.cellheight);
+            this.cellarray = new Array(24).fill(0).map(() => new Array(24).fill(0));
+
             for (let i = 0; i < this.cellheight; i++) {
-                this.cellarray[i] = new Array(this.cellwidth)
                 for (let j = 0; j < this.cellwidth; j++) {
-                    this.cellarray[i][j] = 0;
+                    this.updatecell(i,j);
                 }
             }
             // TODO: change board to reflect this
