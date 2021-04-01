@@ -40,13 +40,13 @@
                     outputX = Math.floor(x/((canvasWidth - 2)/24.0))
                     outputY = Math.floor(y/((canvasHeight - 2)/24.0))
                     
-                    console.log(this.cellarray[outputX][outputY])
+                    console.log(this.cellarray[outputY][outputX])
 
 
-                    if(this.cellarray[outputX][outputY] == 0){
-                        this.cellarray[outputX][outputY] = 1
+                    if(this.cellarray[outputY][outputX] == 0){
+                        this.cellarray[outputY][outputX] = 1
                     } else {
-                        this.cellarray[outputX][outputY] = 0
+                        this.cellarray[outputY][outputX] = 0
                     }
                     
                     this.updatecell(outputX, outputY);
@@ -98,16 +98,20 @@
 
                 return liveCount;
             }
+            
+            console.log(this);
 
+            let liveNeighbors = checkneighbors.bind(this);
+            
             for(let i = 0; i < this.cellheight; i++){
                 for(let j = 0; j < this.cellwidth; j++){
-                    let liveNeighbors = checkneighbors.bind(this)(i, j);
-                    if(this.cellarray[i][j] == 0 && liveNeighbors == 3){
+                    let ln = liveNeighbors(i, j);
+                    if(this.cellarray[i][j] == 0 && ln == 3){
                         this.cellarray[i][j] = 1;
                         this.updatecell(i, j);
                         break;
                     }
-                    if(!((this.cellarray[i][j] == 1 && liveNeighbors == 2) || (this.cellarray[i][j] == 1 && liveNeighbors == 3))){
+                    if(!((this.cellarray[i][j] == 1 && ln == 2) || (this.cellarray[i][j] == 1 && ln == 3))){
                         this.cellarray[i][j] = 0;
                         this.updatecell(i, j);
                         break;
@@ -157,7 +161,7 @@
         // TODO: make this private
         updatecell : function (x, y) {
             let colour = "";
-            if(this.cellarray[x][y] == 1){
+            if(this.cellarray[y][x] == 1){
                 colour = "#fc3903"
             } else { 
                 colour = "#f2f2f2"

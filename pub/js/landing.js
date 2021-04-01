@@ -6,4 +6,4 @@ const noteField = document.getElementById("noteField")
 conway.drawgrid();
 conway.initCanvas();
 
-$("#playButton").click(conway.step());
+$("#playButton").click(conway.step.bind(conway));
