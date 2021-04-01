@@ -49,7 +49,7 @@
                         this.cellarray[outputY][outputX] = 0
                     }
                     
-                    this.updatecell(outputX, outputY);
+                    this.updatecell(outputY, outputX);
                 }
                 
             }
@@ -58,7 +58,7 @@
         // steps through one step of the game, updating the values of each cell and calls updatecell on each changed cell
         step : function () {
             // this returns the live number of neighbors for the cell at cellarray[y][x]
-            function checkneighbors(x, y){
+            function checkneighbors(y, x){
                 let top = y - 1;
                 let bottom = y + 1;
                 let left = x - 1;
@@ -102,23 +102,32 @@
             console.log(this);
 
             let liveNeighbors = checkneighbors.bind(this);
+
+            let updatedCopy = new Array(24).fill(0).map(() => new Array(24).fill(0));
             
             for(let i = 0; i < this.cellheight; i++){
                 for(let j = 0; j < this.cellwidth; j++){
                     let ln = liveNeighbors(i, j);
                     if(this.cellarray[i][j] == 0 && ln == 3){
-                        this.cellarray[i][j] = 1;
-                        this.updatecell(i, j);
-                        break;
-                    }
-                    if(!((this.cellarray[i][j] == 1 && ln == 2) || (this.cellarray[i][j] == 1 && ln == 3))){
-                        this.cellarray[i][j] = 0;
-                        this.updatecell(i, j);
-                        break;
+                        updatedCopy[i][j] = 1;
+                        // this.updatecell(i, j);                   
+                    }else if(!((this.cellarray[i][j] == 1 && ln == 2) || (this.cellarray[i][j] == 1 && ln == 3))){
+                        updatedCopy[i][j] = 0;
+                        // this.updatecell(i, j);        
                     }
                     
                 }
             }
+
+            this.cellarray = updatedCopy;
+
+            for(let i = 0; i < this.cellheight; i++){
+                for(let j = 0; j < this.cellwidth; j++){
+                    this.updatecell(i, j);
+                }
+            }
+
+
 
         },
 
@@ -159,7 +168,7 @@
         // visually updates a single cell to represet that cell's current state
         // takes in x and y coordinates from the cell array, not pixels
         // TODO: make this private
-        updatecell : function (x, y) {
+        updatecell : function (y, x) {
             let colour = "";
             if(this.cellarray[y][x] == 1){
                 colour = "#fc3903"
