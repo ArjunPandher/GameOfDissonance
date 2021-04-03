@@ -12,6 +12,7 @@
         
         // Overriding the canvas's height and width; will support other canvas sizes at a later date.
         // Maybe create the canvas ourselves?
+        this.running = false;
         this.canvas.width = 530;
         this.canvas.height = 530;
         this.canvas.style.width = 530 + "px";
@@ -121,41 +122,44 @@
 
             this.cellarray = updatedCopy;
 
-            for(let i = 0; i < this.cellheight; i++){
-                for(let j = 0; j < this.cellwidth; j++){
-                    this.updatecell(i, j);
-                }
-            }
+            this.updateboard();
             
         },
 
         // steps through the game until endgame is called
         startgame : function () {
-            this.runningThread = setInterval(this.step.bind(this), 200)
+            if(!this.running){
+                this.running = true;
+                this.runningThread = setInterval(this.step.bind(this), 200)
+            }
+            
         },
+        
         // stops stepping through the game if startgame was called in the past
         endgame : function () {
+            this.running = false;
             clearInterval(this.runningThread)
         },
         
         // resets all cells on the board to be empty
         resetboard : function () {
+            if(this.running){
+                this.endgame()
+            }
+            
             this.cellarray = new Array(24).fill(0).map(() => new Array(24).fill(0));
 
-            for (let i = 0; i < this.cellheight; i++) {
-                for (let j = 0; j < this.cellwidth; j++) {
-                    this.updatecell(i,j);
-                }
-            }
-            // TODO: change board to reflect this
+            this.updateboard();
+            
         },
         // visually updates the board to represent current cell data
         updateboard : function () {
             // TODO: this
-
-            // Draw grid
-
-            //
+            for(let i = 0; i < this.cellheight; i++){
+                for(let j = 0; j < this.cellwidth; j++){
+                    this.updatecell(i, j);
+                }
+            }
         },
         // visually updates a single cell to represet that cell's current state
         // takes in x and y coordinates from the cell array, not pixels
