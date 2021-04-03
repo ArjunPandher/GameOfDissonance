@@ -17,12 +17,13 @@
         this.canvas.height = 530;
         this.canvas.style.width = 530 + "px";
         this.canvas.style.height = 530 + "px";
-        this.cellheight = 24;
-        this.cellwidth = 24;
-        this.cellarray = new Array(this.cellheight);
+        this.numcellsx = 24;
+        this.numcellsy = 24;
+        this.cellwidth = 20;    // floor((this.canvas.height - this.borderwidth)/(this.numcellsx))
+        this.cellheight = 20;   // floor((this.canvas.width - this.borderwidth)/(this.numcellsy))
+        this.borderwidth = 2;
         
         this.cellarray = new Array(24).fill(0).map(() => new Array(24).fill(0));
-
     }
 
     Conway.prototype = {
@@ -42,7 +43,6 @@
                     outputY = Math.floor(y/((canvasHeight - 2)/24.0))
                     
                     console.log(this.cellarray[outputY][outputX])
-
 
                     if(this.cellarray[outputY][outputX] == 0){
                         this.cellarray[outputY][outputX] = 1
@@ -105,7 +105,7 @@
             let updatedCopy = new Array(24).fill(0).map(() => new Array(24).fill(0));
             
             for(let i = 0; i < this.cellheight; i++){
-                for(let j = 0; j < this.cellwidth; j++){
+                for(let j = 0; j < this.numcellsx; j++){
                     let ln = liveNeighbors(i, j);
                     if(this.cellarray[i][j] == 0 && ln == 3){
                         updatedCopy[i][j] = 1;               
@@ -132,7 +132,6 @@
                 this.running = true;
                 this.runningThread = setInterval(this.step.bind(this), 200)
             }
-            
         },
         
         // stops stepping through the game if startgame was called in the past
@@ -150,20 +149,17 @@
             this.cellarray = new Array(24).fill(0).map(() => new Array(24).fill(0));
 
             this.updateboard();
-            
         },
         // visually updates the board to represent current cell data
         updateboard : function () {
-            // TODO: this
             for(let i = 0; i < this.cellheight; i++){
-                for(let j = 0; j < this.cellwidth; j++){
+                for(let j = 0; j < this.numcellsx; j++){
                     this.updatecell(i, j);
                 }
             }
         },
         // visually updates a single cell to represet that cell's current state
         // takes in x and y coordinates from the cell array, not pixels
-        // TODO: make this private
         updatecell : function (y, x) {
             let colour = "";
             if(this.cellarray[y][x] == 1){
@@ -173,30 +169,26 @@
             }
 
             this.ctx.fillStyle = colour;
-            //+2 accounts for edges, x * 22 is border width + cell width
-            this.ctx.fillRect(2 + x * 22, 2 + y * 22, 20, 20);
+            
+            this.ctx.fillRect(this.borderwidth + x * (this.borderwidth + this.cellwidth), 2 + this.borderwidth * (this.borderwidth + this.cellheight), this.cellwidth, this.cellheight);
 
         },
         // draws a grid on the canvas
         drawgrid : function () {
-            let gridwidth = 2;
-            let cellwidth = 20;
-            let cellheight = 20;
-            this.ctx.strokeStyle = "#d090d6";
+            this.ctx.strokeStyle = "#332E36";
             this.ctx.lineWidth = 2;
             
-            for (let i = 1; i <= this.canvas.height; i += (this.canvas.height - 2)/(24.0)) {
+            for (let i = 1; i <= this.canvas.height; i += this.cellheight) {
                 this.ctx.moveTo(0, i);
                 this.ctx.lineTo(this.canvas.width - 1, i);         
             }
             
-            for (let i = 0; i <= this.canvas.width; i += (this.canvas.width - 2)/(24.0)) {
+            for (let i = 0; i <= this.canvas.width; i += this.cellwidth) {
                 this.ctx.moveTo(i + 1, 0);
                 this.ctx.lineTo(i + 1, this.canvas.height - 1);   
             }
             
             this.ctx.stroke();
-    
         }
     }
     global.Conway = global.Conway || Conway
