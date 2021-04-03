@@ -41,8 +41,6 @@
                     y -= 2
                     outputX = Math.floor(x/((canvasWidth - 2)/24.0))
                     outputY = Math.floor(y/((canvasHeight - 2)/24.0))
-                    
-                    console.log(this.cellarray[outputY][outputX])
 
                     if(this.cellarray[outputY][outputX] == 0){
                         this.cellarray[outputY][outputX] = 1
@@ -170,8 +168,7 @@
 
             this.ctx.fillStyle = colour;
             
-            // this.ctx.fillRect(this.borderwidth + x * (this.borderwidth + this.cellwidth), 2 + this.borderwidth * (this.borderwidth + this.cellheight), this.cellwidth, this.cellheight);
-            this.ctx.fillRect(2 + x * 22, 2 + y * 22, 20, 20);
+            this.ctx.fillRect(this.borderwidth + x * (this.borderwidth + this.cellwidth), this.borderwidth + y * (this.borderwidth + this.cellheight), this.cellwidth, this.cellheight);
         },
         // draws a grid on the canvas
         drawgrid : function () {
