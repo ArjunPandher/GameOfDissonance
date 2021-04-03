@@ -104,7 +104,7 @@
 
             let updatedCopy = new Array(24).fill(0).map(() => new Array(24).fill(0));
             
-            for(let i = 0; i < this.cellheight; i++){
+            for(let i = 0; i < this.numcellsy; i++){
                 for(let j = 0; j < this.numcellsx; j++){
                     let ln = liveNeighbors(i, j);
                     if(this.cellarray[i][j] == 0 && ln == 3){
@@ -152,7 +152,7 @@
         },
         // visually updates the board to represent current cell data
         updateboard : function () {
-            for(let i = 0; i < this.cellheight; i++){
+            for(let i = 0; i < this.numcellsy; i++){
                 for(let j = 0; j < this.numcellsx; j++){
                     this.updatecell(i, j);
                 }
@@ -170,20 +170,20 @@
 
             this.ctx.fillStyle = colour;
             
-            this.ctx.fillRect(this.borderwidth + x * (this.borderwidth + this.cellwidth), 2 + this.borderwidth * (this.borderwidth + this.cellheight), this.cellwidth, this.cellheight);
-
+            // this.ctx.fillRect(this.borderwidth + x * (this.borderwidth + this.cellwidth), 2 + this.borderwidth * (this.borderwidth + this.cellheight), this.cellwidth, this.cellheight);
+            this.ctx.fillRect(2 + x * 22, 2 + y * 22, 20, 20);
         },
         // draws a grid on the canvas
         drawgrid : function () {
             this.ctx.strokeStyle = "#332E36";
             this.ctx.lineWidth = 2;
             
-            for (let i = 1; i <= this.canvas.height; i += this.cellheight) {
+            for (let i = 1; i <= this.canvas.height; i += this.cellheight + this.borderwidth) {
                 this.ctx.moveTo(0, i);
                 this.ctx.lineTo(this.canvas.width - 1, i);         
             }
             
-            for (let i = 0; i <= this.canvas.width; i += this.cellwidth) {
+            for (let i = 0; i <= this.canvas.width; i += this.cellwidth + this.borderwidth) {
                 this.ctx.moveTo(i + 1, 0);
                 this.ctx.lineTo(i + 1, this.canvas.height - 1);   
             }
