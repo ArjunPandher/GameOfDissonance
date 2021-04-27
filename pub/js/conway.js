@@ -13,17 +13,20 @@
         // Overriding the canvas's height and width; will support other canvas sizes at a later date.
         // Maybe create the canvas ourselves?
         this.running = false;
-        this.canvas.width = 530;
-        this.canvas.height = 530;
-        this.canvas.style.width = 530 + "px";
-        this.canvas.style.height = 530 + "px";
-        this.numcellsx = 24;
-        this.numcellsy = 24;
-        this.cellwidth = 20;    // floor((this.canvas.height - this.borderwidth)/(this.numcellsx))
-        this.cellheight = 20;   // floor((this.canvas.width - this.borderwidth)/(this.numcellsy))
+        this.canvas.width = 552;
+        this.canvas.height = 552;
+        this.canvas.style.width = 552 + "px";
+        this.canvas.style.height = 552 + "px";
+        this.numcellsx = 25.0;
+        this.numcellsy = 25.0;
         this.borderwidth = 2;
+        this.cellwidth = 20;    
+        // this.cellwidth =  Math.floor((this.canvas.height - this.borderwidth)/(this.numcellsx))
+        this.cellheight = 20;   
+        // this.cellheight = Math.floor((this.canvas.width - this.borderwidth)/(this.numcellsy))
         
-        this.cellarray = new Array(24).fill(0).map(() => new Array(24).fill(0));
+        
+        this.cellarray = new Array(this.numcellsy).fill(0).map(() => new Array(this.numcellsx).fill(0));
     }
 
     Conway.prototype = {
@@ -39,8 +42,8 @@
                 if(x >= 2 && y >= 2){
                     x -= 2
                     y -= 2
-                    outputX = Math.floor(x/((canvasWidth - 2)/24.0))
-                    outputY = Math.floor(y/((canvasHeight - 2)/24.0))
+                    outputX = Math.floor(x/((canvasWidth - 2)/this.numcellsx))
+                    outputY = Math.floor(y/((canvasHeight - 2)/this.numcellsy))
 
                     if(this.cellarray[outputY][outputX] == 0){
                         this.cellarray[outputY][outputX] = 1
@@ -63,15 +66,15 @@
                 let left = x - 1;
                 let right = x + 1;
                 if(top < 0){
-                    top = 23;
+                    top = this.numcellsy - 1;
                 }
-                if(bottom > 23){
+                if(bottom > this.numcellsy - 1){
                     bottom = 0;
                 }
                 if(left < 0){
-                    left = 23;
+                    left = this.numcellsx - 1;
                 }
-                if(right > 23){
+                if(right > this.numcellsx - 1){
                     right = 0;
                 }
                 let neighborArray = [
@@ -100,7 +103,7 @@
 
             let liveNeighbors = checkneighbors.bind(this);
 
-            let updatedCopy = new Array(24).fill(0).map(() => new Array(24).fill(0));
+            let updatedCopy = new Array(this.numcellsy).fill(0).map(() => new Array(this.numcellsx).fill(0));
             
             for(let i = 0; i < this.numcellsy; i++){
                 for(let j = 0; j < this.numcellsx; j++){
@@ -144,7 +147,7 @@
                 this.endgame()
             }
             
-            this.cellarray = new Array(24).fill(0).map(() => new Array(24).fill(0));
+            this.cellarray = new Array(this.numcellsy).fill(0).map(() => new Array(this.numcellsx).fill(0));
 
             this.updateboard();
         },
