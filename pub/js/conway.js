@@ -42,7 +42,7 @@
 
             let gain = this.audiocontext.createGain();
             gain.gain.exponentialRampToValueAtTime(
-                0.0001, this.audiocontext.currentTime + 0.002
+                0.0001, this.audiocontext.currentTime + 0.02
             );
             this.gainarray[i] = gain;
 
