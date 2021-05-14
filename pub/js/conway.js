@@ -37,6 +37,7 @@
         
         for(let i = 0; i < 25; i++){
             let osc = this.audiocontext.createOscillator();
+            osc.type = "sine";
             this.oscarray[i] = osc;
 
             let gain = this.audiocontext.createGain();
@@ -250,7 +251,7 @@
         setOscillator : function(group_data) {
             for(let i = 0; i < 25; i++){
                 let amplitude = (group_data[i].num_cells/25.0) * 2;
-                let frequency = 440;
+                let frequency = (group_data[i].avg_x/5.0 * 9980.0) + 20.0;
             }
         }
         
