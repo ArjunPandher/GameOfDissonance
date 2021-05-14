@@ -40,6 +40,9 @@
             this.oscarray[i] = osc;
 
             let gain = this.audiocontext.createGain();
+            gain.gain.exponentialRampToValueAtTime(
+                0.0001, this.audiocontext.currentTime + 0.002
+            );
             this.gainarray[i] = gain;
 
             osc.connect(gain);
