@@ -27,6 +27,24 @@
         
         
         this.cellarray = new Array(this.numcellsy).fill(0).map(() => new Array(this.numcellsx).fill(0));
+
+        this.audiocontext = new AudioContext();
+        
+        this.oscarray = new Array(25);
+        this.gainarray = new Array(25);
+
+        this.maxgain = 2;
+        
+        for(let i = 0; i < 25; i++){
+            let osc = this.audiocontext.createOscillator();
+            this.oscarray[i] = osc;
+
+            let gain = this.audiocontext.createGain();
+            this.gainarray[i] = gain;
+
+            osc.connect(gain);
+            gain.connect(this.audiocontext.destination);
+        }
     }
 
     Conway.prototype = {
@@ -189,7 +207,54 @@
             }
             
             this.ctx.stroke();
+        },
+
+        //calculates the center position of the alive cells in the grouping
+        //only works if x and y values are less than or equal to numcellsx-5 and numcellsy-5
+        calculateGrouping : function(x, y){
+            let total_x = 0;
+            let total_y = 0;
+            let num_cells = 0;
+            for(let i = y; i < y+5; i++){
+                for(let j = x; j < x+5; i++){
+                    if(this.cellarray[i][j] == 1){
+                        total_x += j-x+1;
+                        total_y += i-j+1;
+                        num_cells++;
+                    }   
+                }
+            }
+            
+            const return_val = {
+                "avg_x":total_x/num_cells,
+                "avg_y":total_y/num_cells,
+                "num_cells":num_cells
+            }
+
+            return return_val;
+        },
+
+        calculateAllGroups : function() {
+            let group_data = new Array(25);
+            let group_counter = 0;
+            for(i = 0; i < 5; i++){
+                for(j = 0; j < 5; j++){
+                    group_data[group_counter] = this.calculateGrouping(j*5, i*5);
+                    group_counter++;
+                }
+            }
+
+            return group_data;
+        },
+
+        setOscillator : function(group_data) {
+            for(let i = 0; i < 25; i++){
+                let amplitude = (group_data[i].num_cells/25.0) * 2;
+                let frequency = 440;
+            }
         }
+        
+
     }
     global.Conway = global.Conway || Conway
 })(window, window.document, $);
