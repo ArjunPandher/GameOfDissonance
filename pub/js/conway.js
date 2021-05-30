@@ -1,4 +1,5 @@
 "use strict";
+import * as Tone from 'tone'
 
 // Current version specifications:
 // Cell pixel dimensions: 20 by 20 px
@@ -27,28 +28,28 @@
         
         
         this.cellarray = new Array(this.numcellsy).fill(0).map(() => new Array(this.numcellsx).fill(0));
-
-        this.audiocontext = new AudioContext();
         
-        this.oscarray = new Array(25);
-        this.gainarray = new Array(25);
+        // this.syntharray = new Array(25);
+        // this.gainarray = new Array(25);
+
+        this.pagesynth = new Tone.PolySynth(Tone.Synth).toDestination();
+        
+        console.log(Tone);
 
         this.maxgain = 2;
         
-        for(let i = 0; i < 25; i++){
-            let osc = this.audiocontext.createOscillator();
-            osc.type = "sine";
-            this.oscarray[i] = osc;
+        // for(let i = 0; i < 25; i++){
+        //     const synth = new Tone.Synth().toDestination();
 
-            let gain = this.audiocontext.createGain();
-            gain.gain.exponentialRampToValueAtTime(
-                0.0001, this.audiocontext.currentTime + 0.02
-            );
-            this.gainarray[i] = gain;
+        //     // let gain = this.audiocontext.createGain();
+        //     // gain.gain.exponentialRampToValueAtTime(
+        //     //     0.0001, this.audiocontext.currentTime + 0.02
+        //     // );
+        //     // this.gainarray[i] = gain;
 
-            osc.connect(gain);
-            gain.connect(this.audiocontext.destination);
-        }
+        //     this.syntharray[i] = synth;
+        //     // gain.connect(this.audiocontext.destination);
+        // }
     }
 
     Conway.prototype = {
